@@ -8,8 +8,17 @@ const App = () => {
   const addContact = (e) => {
     e.preventDefault();
 
+    const containsSameName = contacts.some(
+      (contact) => contact.name === newContactName.trim()
+    );
+
+    if (containsSameName) {
+      alert(`"${newContactName.trim()}" is already added to the phonebook!`);
+      return;
+    }
+
     const newContact = {
-      name: newContactName,
+      name: newContactName.trim(),
     };
 
     setContacts([...contacts, newContact]);
