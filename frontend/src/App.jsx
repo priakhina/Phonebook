@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import SearchFilter from './components/SearchFilter';
+
 import './App.css';
 
 const App = () => {
@@ -51,17 +53,11 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
-      <div>
-        Search contacts by name:{' '}
-        <input value={searchKeyword} onChange={searchContactsByName} />
-        <div>
-          {searchResult.map((contact) => (
-            <p key={contact.name}>
-              {contact.name} {contact.number}
-            </p>
-          ))}
-        </div>
-      </div>
+      <SearchFilter
+        searchKeyword={searchKeyword}
+        searchResult={searchResult}
+        onSearchKeywordChange={searchContactsByName}
+      />
       <form onSubmit={addContact}>
         <div>
           Name:{' '}
