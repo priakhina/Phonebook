@@ -2,8 +2,11 @@ import { useState } from 'react';
 import './App.css';
 
 const App = () => {
-  const [contacts, setContacts] = useState([{ name: 'John Doe' }]);
+  const [contacts, setContacts] = useState([
+    { name: 'John Doe', number: '587-123-4567' },
+  ]);
   const [newContactName, setNewContactName] = useState('');
+  const [newContactNumber, setNewContactNumber] = useState('');
 
   const addContact = (e) => {
     e.preventDefault();
@@ -19,10 +22,12 @@ const App = () => {
 
     const newContact = {
       name: newContactName.trim(),
+      number: newContactNumber.trim(),
     };
 
     setContacts([...contacts, newContact]);
     setNewContactName('');
+    setNewContactNumber('');
   };
 
   return (
@@ -37,13 +42,23 @@ const App = () => {
           />
         </div>
         <div>
+          Number:{' '}
+          <input
+            type='tel'
+            value={newContactNumber}
+            onChange={({ target }) => setNewContactNumber(target.value)}
+          />
+        </div>
+        <div>
           <button type='submit'>Add a new contact</button>
         </div>
       </form>
       <h2>All contacts</h2>
       <div>
         {contacts.map((contact) => (
-          <p key={contact.name}>{contact.name}</p>
+          <p key={contact.name}>
+            {contact.name} {contact.number}
+          </p>
         ))}
       </div>
     </div>
