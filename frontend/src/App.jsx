@@ -4,9 +4,15 @@ import './App.css';
 const App = () => {
   const [contacts, setContacts] = useState([
     { name: 'John Doe', number: '587-123-4567' },
+    { name: 'Arto Hellas', number: '040-123456' },
+    { name: 'Ada Lovelace', number: '39-44-5323523' },
+    { name: 'Dan Abramov', number: '12-43-234345' },
+    { name: 'Mary Poppendieck', number: '39-23-6423122' },
   ]);
   const [newContactName, setNewContactName] = useState('');
   const [newContactNumber, setNewContactNumber] = useState('');
+  const [searchKeyword, setSearchKeyword] = useState('');
+  const [searchResult, setSearchResult] = useState([]);
 
   const addContact = (e) => {
     e.preventDefault();
@@ -30,9 +36,32 @@ const App = () => {
     setNewContactNumber('');
   };
 
+  const searchContactsByName = ({ target }) => {
+    setSearchKeyword(target.value);
+
+    let matchedContacts = [];
+    if (target.value.trim() !== '') {
+      matchedContacts = contacts.filter((contact) =>
+        contact.name.toLowerCase().includes(target.value.toLowerCase().trim())
+      );
+    }
+    setSearchResult(matchedContacts);
+  };
+
   return (
     <div>
       <h1>Phonebook</h1>
+      <div>
+        Search contacts by name:{' '}
+        <input value={searchKeyword} onChange={searchContactsByName} />
+        <div>
+          {searchResult.map((contact) => (
+            <p key={contact.name}>
+              {contact.name} {contact.number}
+            </p>
+          ))}
+        </div>
+      </div>
       <form onSubmit={addContact}>
         <div>
           Name:{' '}
