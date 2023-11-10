@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import SearchFilter from './components/SearchFilter';
+import ContactForm from './components/ContactForm';
 
 import './App.css';
 
@@ -15,6 +16,12 @@ const App = () => {
   const [newContactNumber, setNewContactNumber] = useState('');
   const [searchKeyword, setSearchKeyword] = useState('');
   const [searchResult, setSearchResult] = useState([]);
+
+  const handleNewContactNameChange = ({ target }) =>
+    setNewContactName(target.value);
+
+  const handleNewContactNumberChange = ({ target }) =>
+    setNewContactNumber(target.value);
 
   const addContact = (e) => {
     e.preventDefault();
@@ -58,26 +65,13 @@ const App = () => {
         searchResult={searchResult}
         onSearchKeywordChange={searchContactsByName}
       />
-      <form onSubmit={addContact}>
-        <div>
-          Name:{' '}
-          <input
-            value={newContactName}
-            onChange={({ target }) => setNewContactName(target.value)}
-          />
-        </div>
-        <div>
-          Number:{' '}
-          <input
-            type='tel'
-            value={newContactNumber}
-            onChange={({ target }) => setNewContactNumber(target.value)}
-          />
-        </div>
-        <div>
-          <button type='submit'>Add a new contact</button>
-        </div>
-      </form>
+      <ContactForm
+        newContactName={newContactName}
+        newContactNumber={newContactNumber}
+        onNewContactNameChange={handleNewContactNameChange}
+        onNewContactNumberChange={handleNewContactNumberChange}
+        onFormSubmit={addContact}
+      />
       <h2>All contacts</h2>
       <div>
         {contacts.map((contact) => (
