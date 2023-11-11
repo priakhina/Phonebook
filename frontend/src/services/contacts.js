@@ -12,4 +12,9 @@ const create = (newContact) => {
   return request.then((response) => response.data);
 };
 
-export default { getAll, create };
+const remove = (id) => {
+  const request = axios.delete(`${BASE_URL}/${id}`);
+  return request.then((response) => response.data);
+};
+
+export default { getAll, create, remove };

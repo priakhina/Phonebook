@@ -49,6 +49,28 @@ const App = () => {
     });
   };
 
+  const deleteContact = (id) => {
+    const contactToDelete = contacts.find((contact) => contact.id === id);
+    const shouldDelete = window.confirm(
+      `Are you sure you want to remove "${contactToDelete.name}" from the phonebook?`
+    );
+
+    if (shouldDelete) {
+      contactService
+        .remove(id)
+        .then(() =>
+          setContacts(contacts.filter((contact) => contact.id !== id))
+        )
+        .catch((error) => {
+          console.log(error);
+          alert(
+            `"${contactToDelete.name}" is already deleted from the phonebook!`
+          );
+          setContacts(contacts.filter((contact) => contact.id !== id));
+        });
+    }
+  };
+
   const searchContactsByName = ({ target }) => {
     setSearchKeyword(target.value);
 
@@ -77,7 +99,7 @@ const App = () => {
         onFormSubmit={addContact}
       />
       <h2>All contacts</h2>
-      <Contacts contacts={contacts} />
+      <Contacts contacts={contacts} onContactDelete={deleteContact} />
     </div>
   );
 };
