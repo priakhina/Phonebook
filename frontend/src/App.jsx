@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import SearchFilter from './components/SearchFilter';
 import ContactForm from './components/ContactForm';
+import Contacts from './components/Contacts';
 
 import './App.css';
 
@@ -73,13 +74,7 @@ const App = () => {
         onFormSubmit={addContact}
       />
       <h2>All contacts</h2>
-      <div>
-        {contacts.map((contact) => (
-          <p key={contact.name}>
-            {contact.name} {contact.number}
-          </p>
-        ))}
-      </div>
+      <Contacts contacts={contacts} />
     </div>
   );
 };
