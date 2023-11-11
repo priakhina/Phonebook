@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import SearchFilter from './components/SearchFilter';
 import ContactForm from './components/ContactForm';
 import Contacts from './components/Contacts';
@@ -6,17 +7,17 @@ import Contacts from './components/Contacts';
 import './App.css';
 
 const App = () => {
-  const [contacts, setContacts] = useState([
-    { name: 'John Doe', number: '587-123-4567' },
-    { name: 'Arto Hellas', number: '040-123456' },
-    { name: 'Ada Lovelace', number: '39-44-5323523' },
-    { name: 'Dan Abramov', number: '12-43-234345' },
-    { name: 'Mary Poppendieck', number: '39-23-6423122' },
-  ]);
+  const [contacts, setContacts] = useState([]);
   const [newContactName, setNewContactName] = useState('');
   const [newContactNumber, setNewContactNumber] = useState('');
   const [searchKeyword, setSearchKeyword] = useState('');
   const [searchResult, setSearchResult] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:3001/contacts')
+      .then((response) => setContacts(response.data));
+  }, []);
 
   const handleNewContactNameChange = ({ target }) =>
     setNewContactName(target.value);
