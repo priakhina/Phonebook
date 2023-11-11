@@ -28,12 +28,41 @@ const App = () => {
   const addContact = (e) => {
     e.preventDefault();
 
-    const containsSameName = contacts.some(
+    const contactToUpdate = contacts.find(
       (contact) => contact.name === newContactName.trim()
     );
 
-    if (containsSameName) {
-      alert(`"${newContactName.trim()}" is already added to the phonebook!`);
+    if (contactToUpdate) {
+      const shouldUpdate = window.confirm(
+        `"${newContactName.trim()}" is already added to the phonebook. Replace the old number with a new one?`
+      );
+
+      if (shouldUpdate) {
+        const changedContact = { ...contactToUpdate, number: newContactNumber };
+
+        contactService
+          .update(contactToUpdate.id, changedContact)
+          .then((returnedContact) => {
+            setContacts(
+              contacts.map((contact) =>
+                contact.id !== contactToUpdate.id ? contact : returnedContact
+              )
+            );
+
+            setNewContactName('');
+            setNewContactNumber('');
+          })
+          .catch((error) => {
+            console.log(error);
+            alert(
+              `"${contactToUpdate.name.trim()}" was already deleted from the phonebook!`
+            );
+            setContacts(
+              contacts.filter((contact) => contact.id !== contactToUpdate.id)
+            );
+          });
+      }
+
       return;
     }
 
