@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import SearchFilter from './components/SearchFilter';
 import ContactForm from './components/ContactForm';
 import Contacts from './components/Contacts';
+import contactService from './services/contacts';
 
 import './App.css';
 
@@ -14,9 +14,9 @@ const App = () => {
   const [searchResult, setSearchResult] = useState([]);
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/contacts')
-      .then((response) => setContacts(response.data));
+    contactService
+      .getAll()
+      .then((initialContacts) => setContacts(initialContacts));
   }, []);
 
   const handleNewContactNameChange = ({ target }) =>
@@ -42,13 +42,11 @@ const App = () => {
       number: newContactNumber.trim(),
     };
 
-    axios
-      .post('http://localhost:3001/contacts', newContact)
-      .then((response) => {
-        setContacts([...contacts, response.data]);
-        setNewContactName('');
-        setNewContactNumber('');
-      });
+    contactService.create(newContact).then((returnedContact) => {
+      setContacts([...contacts, returnedContact]);
+      setNewContactName('');
+      setNewContactNumber('');
+    });
   };
 
   const searchContactsByName = ({ target }) => {
