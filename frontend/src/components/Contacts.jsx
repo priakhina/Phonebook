@@ -1,12 +1,11 @@
 import PropTypes from 'prop-types';
+import Contact from './Contact';
 
 const Contacts = ({ contacts }) => {
   return (
     <div>
       {contacts.map((contact) => (
-        <p key={contact.name}>
-          {contact.name} {contact.number}
-        </p>
+        <Contact key={contact.name} contact={contact} />
       ))}
     </div>
   );
