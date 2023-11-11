@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import SearchFilter from './components/SearchFilter';
+import SearchResult from './components/SearchResult';
 import ContactForm from './components/ContactForm';
 import Contacts from './components/Contacts';
 import contactService from './services/contacts';
@@ -123,9 +124,9 @@ const App = () => {
       <h1>Phonebook</h1>
       <SearchFilter
         searchKeyword={searchKeyword}
-        searchResult={searchResult}
         onSearchKeywordChange={searchContactsByName}
       />
+      <SearchResult searchResult={searchResult} />
       <ContactForm
         newContactName={newContactName}
         newContactNumber={newContactNumber}
