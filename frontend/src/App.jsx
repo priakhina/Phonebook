@@ -42,9 +42,13 @@ const App = () => {
       number: newContactNumber.trim(),
     };
 
-    setContacts([...contacts, newContact]);
-    setNewContactName('');
-    setNewContactNumber('');
+    axios
+      .post('http://localhost:3001/contacts', newContact)
+      .then((response) => {
+        setContacts([...contacts, response.data]);
+        setNewContactName('');
+        setNewContactNumber('');
+      });
   };
 
   const searchContactsByName = ({ target }) => {
