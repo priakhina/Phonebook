@@ -25,47 +25,27 @@ const App = () => {
   const handleNewContactNumberChange = ({ target }) =>
     setNewContactNumber(target.value);
 
-  const addContact = (e) => {
+  const handleFormSubmit = (e) => {
     e.preventDefault();
 
-    const contactToUpdate = contacts.find(
+    const duplicateContact = contacts.find(
       (contact) => contact.name === newContactName.trim()
     );
 
-    if (contactToUpdate) {
+    if (duplicateContact) {
       const shouldUpdate = window.confirm(
         `"${newContactName.trim()}" is already added to the phonebook. Replace the old number with a new one?`
       );
 
       if (shouldUpdate) {
-        const changedContact = { ...contactToUpdate, number: newContactNumber };
-
-        contactService
-          .update(contactToUpdate.id, changedContact)
-          .then((returnedContact) => {
-            setContacts(
-              contacts.map((contact) =>
-                contact.id !== contactToUpdate.id ? contact : returnedContact
-              )
-            );
-
-            setNewContactName('');
-            setNewContactNumber('');
-          })
-          .catch((error) => {
-            console.log(error);
-            alert(
-              `"${contactToUpdate.name.trim()}" was already deleted from the phonebook!`
-            );
-            setContacts(
-              contacts.filter((contact) => contact.id !== contactToUpdate.id)
-            );
-          });
+        updateContactNumber(duplicateContact);
       }
-
-      return;
+    } else {
+      addContact();
     }
+  };
 
+  const addContact = () => {
     const newContact = {
       name: newContactName.trim(),
       number: newContactNumber.trim(),
@@ -76,6 +56,32 @@ const App = () => {
       setNewContactName('');
       setNewContactNumber('');
     });
+  };
+
+  const updateContactNumber = (contactToUpdate) => {
+    const changedContact = { ...contactToUpdate, number: newContactNumber };
+
+    contactService
+      .update(contactToUpdate.id, changedContact)
+      .then((returnedContact) => {
+        setContacts(
+          contacts.map((contact) =>
+            contact.id !== contactToUpdate.id ? contact : returnedContact
+          )
+        );
+
+        setNewContactName('');
+        setNewContactNumber('');
+      })
+      .catch((error) => {
+        console.log(error);
+        alert(
+          `"${contactToUpdate.name.trim()}" was already deleted from the phonebook!`
+        );
+        setContacts(
+          contacts.filter((contact) => contact.id !== contactToUpdate.id)
+        );
+      });
   };
 
   const deleteContact = (id) => {
@@ -125,7 +131,7 @@ const App = () => {
         newContactNumber={newContactNumber}
         onNewContactNameChange={handleNewContactNameChange}
         onNewContactNumberChange={handleNewContactNumberChange}
-        onFormSubmit={addContact}
+        onFormSubmit={handleFormSubmit}
       />
       <h2>All contacts</h2>
       <Contacts contacts={contacts} onContactDelete={deleteContact} />
