@@ -12,6 +12,7 @@ const App = () => {
   const [newContactNumber, setNewContactNumber] = useState('');
   const [searchKeyword, setSearchKeyword] = useState('');
   const [searchResult, setSearchResult] = useState([]);
+  const [isSearchActive, setIsSearchActive] = useState(false);
 
   useEffect(() => {
     contactService
@@ -118,25 +119,34 @@ const App = () => {
         contact.name.toLowerCase().includes(searchKeyword.toLowerCase().trim())
       );
     }
-    setSearchResult(matchedContacts);
+    if (matchedContacts.length !== 0) {
+      setSearchResult(matchedContacts);
+      setIsSearchActive(true);
+    }
   };
 
   return (
-    <div>
-      <h1>Phonebook</h1>
-      <SearchFilter
-        searchKeyword={searchKeyword}
-        onSearchKeywordChange={handleSearchKeywordChange}
-        onFormSubmit={searchContactsByName}
-      />
-      <ContactForm
-        newContactName={newContactName}
-        newContactNumber={newContactNumber}
-        onNewContactNameChange={handleNewContactNameChange}
-        onNewContactNumberChange={handleNewContactNumberChange}
-        onFormSubmit={handleFormSubmit}
-      />
-      <Contacts contacts={searchResult} onContactDelete={deleteContact} />
+    <div
+      className={isSearchActive ? 'app-wrapper active-search' : 'app-wrapper'}
+    >
+      <div className='main-view'>
+        <h1>Phonebook</h1>
+        <SearchFilter
+          searchKeyword={searchKeyword}
+          onSearchKeywordChange={handleSearchKeywordChange}
+          onFormSubmit={searchContactsByName}
+        />
+        <ContactForm
+          newContactName={newContactName}
+          newContactNumber={newContactNumber}
+          onNewContactNameChange={handleNewContactNameChange}
+          onNewContactNumberChange={handleNewContactNumberChange}
+          onFormSubmit={handleFormSubmit}
+        />
+      </div>
+      <div className='contacts-view'>
+        <Contacts contacts={searchResult} onContactDelete={deleteContact} />
+      </div>
     </div>
   );
 };
