@@ -1,17 +1,30 @@
 import PropTypes from 'prop-types';
 
-const SearchFilter = ({ searchKeyword, onSearchKeywordChange }) => {
+const SearchFilter = ({
+  searchKeyword,
+  onSearchKeywordChange,
+  onFormSubmit,
+}) => {
   return (
-    <div>
-      Search contacts by name:{' '}
-      <input value={searchKeyword} onChange={onSearchKeywordChange} />
-    </div>
+    <form onSubmit={onFormSubmit}>
+      <div>
+        <input
+          placeholder='Enter your search keyword'
+          value={searchKeyword}
+          onChange={onSearchKeywordChange}
+        />
+      </div>
+      <div>
+        <button type='submit'>Search a contact</button>
+      </div>
+    </form>
   );
 };
 
 SearchFilter.propTypes = {
   searchKeyword: PropTypes.string.isRequired,
   onSearchKeywordChange: PropTypes.func.isRequired,
+  onFormSubmit: PropTypes.func.isRequired,
 };
 
 export default SearchFilter;

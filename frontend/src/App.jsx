@@ -26,6 +26,9 @@ const App = () => {
   const handleNewContactNumberChange = ({ target }) =>
     setNewContactNumber(target.value);
 
+  const handleSearchKeywordChange = ({ target }) =>
+    setSearchKeyword(target.value);
+
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
@@ -107,13 +110,13 @@ const App = () => {
     }
   };
 
-  const searchContactsByName = ({ target }) => {
-    setSearchKeyword(target.value);
+  const searchContactsByName = (e) => {
+    e.preventDefault();
 
     let matchedContacts = [];
-    if (target.value.trim() !== '') {
+    if (searchKeyword.trim() !== '') {
       matchedContacts = contacts.filter((contact) =>
-        contact.name.toLowerCase().includes(target.value.toLowerCase().trim())
+        contact.name.toLowerCase().includes(searchKeyword.toLowerCase().trim())
       );
     }
     setSearchResult(matchedContacts);
@@ -124,7 +127,8 @@ const App = () => {
       <h1>Phonebook</h1>
       <SearchFilter
         searchKeyword={searchKeyword}
-        onSearchKeywordChange={searchContactsByName}
+        onSearchKeywordChange={handleSearchKeywordChange}
+        onFormSubmit={searchContactsByName}
       />
       <SearchResult searchResult={searchResult} />
       <ContactForm
