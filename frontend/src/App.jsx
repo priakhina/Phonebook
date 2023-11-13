@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import SearchFilter from './components/SearchFilter';
-import SearchResult from './components/SearchResult';
 import ContactForm from './components/ContactForm';
 import Contacts from './components/Contacts';
 import contactService from './services/contacts';
@@ -130,7 +129,6 @@ const App = () => {
         onSearchKeywordChange={handleSearchKeywordChange}
         onFormSubmit={searchContactsByName}
       />
-      <SearchResult searchResult={searchResult} />
       <ContactForm
         newContactName={newContactName}
         newContactNumber={newContactNumber}
@@ -138,8 +136,7 @@ const App = () => {
         onNewContactNumberChange={handleNewContactNumberChange}
         onFormSubmit={handleFormSubmit}
       />
-      <h2>All contacts</h2>
-      <Contacts contacts={contacts} onContactDelete={deleteContact} />
+      <Contacts contacts={searchResult} onContactDelete={deleteContact} />
     </div>
   );
 };
