@@ -1,10 +1,15 @@
 import PropTypes from 'prop-types';
 
 const Contact = ({ contact, onContactDelete }) => (
-  <p>
-    {contact.name} {contact.number}{' '}
-    <button onClick={onContactDelete}>Delete</button>
-  </p>
+  <div className='contact'>
+    <div className='contact-details'>
+      <p className='name'>{contact.name}</p>
+      <p className='number'>{contact.number}</p>
+    </div>
+    <div className='contact-actions'>
+      <button onClick={onContactDelete}>Delete</button>
+    </div>
+  </div>
 );
 
 Contact.propTypes = {

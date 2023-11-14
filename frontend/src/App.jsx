@@ -131,7 +131,7 @@ const App = () => {
     >
       <div className='main-view'>
         <h1>Phonebook</h1>
-        <h2>Manage your contacts the easy way</h2>
+        <h3>Manage your contacts the easy way</h3>
         <SearchFilter
           searchKeyword={searchKeyword}
           onSearchKeywordChange={handleSearchKeywordChange}
@@ -146,7 +146,11 @@ const App = () => {
         />
       </div>
       <div className='contacts-view'>
-        <Contacts contacts={searchResult} onContactDelete={deleteContact} />
+        <Contacts
+          contacts={searchResult}
+          searchKeyword={searchKeyword}
+          onContactDelete={deleteContact}
+        />
       </div>
     </div>
   );
