@@ -131,6 +131,7 @@ const App = () => {
     >
       <div className='main-view'>
         <h1>Phonebook</h1>
+        <h2>Manage your contacts the easy way</h2>
         <SearchFilter
           searchKeyword={searchKeyword}
           onSearchKeywordChange={handleSearchKeywordChange}

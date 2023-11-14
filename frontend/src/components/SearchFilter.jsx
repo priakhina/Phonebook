@@ -6,9 +6,10 @@ const SearchFilter = ({
   onFormSubmit,
 }) => {
   return (
-    <form onSubmit={onFormSubmit}>
+    <form className='search-filter' onSubmit={onFormSubmit}>
       <div>
         <input
+          className='keyword-input'
           placeholder='Enter your search keyword'
           value={searchKeyword}
           onChange={onSearchKeywordChange}

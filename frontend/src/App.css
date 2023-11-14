@@ -5,6 +5,10 @@
   text-align: center;
 }
 
+h2 {
+  margin-bottom: 70px;
+}
+
 .app-wrapper {
   height: 100%;
   display: flex;
@@ -12,12 +16,13 @@
 }
 
 .main-view {
+  padding-top: 20vh;
   flex: 1 0 100%;
 }
 
 .contacts-view {
   flex: 0 0 50%;
-  background: orange;
+  background: #ffa500;
 }
 
 .app-wrapper.active-search > .main-view {
@@ -33,4 +38,10 @@
   to {
     flex-basis: 50%;
   }
+}
+
+.search-filter .keyword-input {
+  width: 400px;
+  margin-bottom: 30px;
+  text-align: center;
 }
