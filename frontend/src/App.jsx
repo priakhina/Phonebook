@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import SearchFilter from './components/SearchFilter';
 import ContactForm from './components/ContactForm';
+import AlphabetTabs from './components/AlphabetTabs';
 import Contacts from './components/Contacts';
 import contactService from './services/contacts';
 
@@ -146,6 +147,7 @@ const App = () => {
         />
       </div>
       <div className='contacts-view'>
+        <AlphabetTabs />
         <Contacts
           contacts={searchResult}
           searchKeyword={searchKeyword}
