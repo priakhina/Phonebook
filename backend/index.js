@@ -2,7 +2,6 @@ require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
-const mongoose = require('mongoose');
 
 const app = express();
 
@@ -51,26 +50,7 @@ let contacts = [
   },
 ];
 
-mongoose.set('strictQuery', false);
-mongoose
-  .connect(process.env.MONGODB_URI)
-  .then(() => console.log('Successfully connected to MongoDB.'))
-  .catch((error) => console.log('Error connecting to MongoDB:', error.message));
-
-const contactSchema = new mongoose.Schema({
-  name: String,
-  number: String,
-});
-
-contactSchema.set('toJSON', {
-  transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString();
-    delete returnedObject._id;
-    delete returnedObject.__v;
-  },
-});
-
-const Contact = mongoose.model('Contact', contactSchema);
+const Contact = require('./models/contact');
 
 const generateId = () => Math.floor(100 + Math.random() * 99901); // generating a random number [100; 100,000]
 
@@ -131,5 +111,5 @@ app.post('/api/contacts', (request, response) => {
   response.json(newContact);
 });
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
