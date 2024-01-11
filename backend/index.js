@@ -9,7 +9,13 @@ const app = express();
 app.use(express.json());
 
 // morgan (https://github.com/expressjs/morgan) is an HTTP request logger middleware for Node.js
-app.use(morgan('tiny'));
+morgan.token('data', (request, response) =>
+  request.method === 'POST' ? JSON.stringify(request.body) : null
+);
+
+app.use(
+  morgan(':method :url :status :res[content-length] - :response-time ms :data')
+);
 
 let contacts = [
   {
