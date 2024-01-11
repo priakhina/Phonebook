@@ -75,10 +75,12 @@ app.get('/api/contacts/:id', (request, response) => {
 });
 
 app.delete('/api/contacts/:id', (request, response) => {
-  const id = Number(request.params.id);
-  contacts = contacts.filter((contact) => contact.id !== id);
-
-  response.status(204).end();
+  Contact.findByIdAndDelete(request.params.id)
+    .then((result) => response.status(204).end())
+    .catch((error) => {
+      console.error(error);
+      response.status(400).send({ error: 'malformed id' });
+    });
 });
 
 app.post('/api/contacts', (request, response) => {
