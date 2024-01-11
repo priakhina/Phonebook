@@ -1,5 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
+const cors = require('cors');
 
 const app = express();
 
@@ -16,6 +17,9 @@ morgan.token('data', (request, response) =>
 app.use(
   morgan(':method :url :status :res[content-length] - :response-time ms :data')
 );
+
+// cors (https://github.com/expressjs/cors) is a middleware that enables CORS (Cross-Origin Resource Sharing) mechanism
+app.use(cors());
 
 let contacts = [
   {
