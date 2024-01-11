@@ -1,10 +1,15 @@
 const express = require('express');
+const morgan = require('morgan');
+
 const app = express();
 
 // json-parser (https://expressjs.com/en/api.html)
 // transforms the JSON data of a request into a JavaScript object;
 // the parsed data is accessed via the body property of the request object (i.e., request.body)
 app.use(express.json());
+
+// morgan (https://github.com/expressjs/morgan) is an HTTP request logger middleware for Node.js
+app.use(morgan('tiny'));
 
 let contacts = [
   {
