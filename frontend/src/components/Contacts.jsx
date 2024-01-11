@@ -5,7 +5,8 @@ const Contacts = ({ contacts, searchKeyword, onContactDelete }) => {
   return (
     <div className='contacts'>
       <h2>
-        {contacts.length} {contacts.length > 1 ? 'Results' : 'Result'}
+        {contacts.length}{' '}
+        {contacts.length === 0 || contacts.length > 1 ? 'Results' : 'Result'}
       </h2>
       <div className='keyword'>
         Keyword <br /> <span>{searchKeyword}</span>

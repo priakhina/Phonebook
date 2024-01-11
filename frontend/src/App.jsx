@@ -124,10 +124,9 @@ const App = () => {
         contact.name.toLowerCase().includes(searchKeyword.toLowerCase().trim())
       );
     }
-    if (matchedContacts.length !== 0) {
-      setSearchResult(matchedContacts);
-      setIsSearchActive(true);
-    }
+
+    setSearchResult(matchedContacts);
+    setIsSearchActive(true);
   };
 
   return (
