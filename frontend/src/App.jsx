@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import SearchFilter from './components/SearchFilter';
 import ContactForm from './components/ContactForm';
 import AlphabetTabs from './components/AlphabetTabs';
@@ -14,6 +14,7 @@ const App = () => {
   const [searchKeyword, setSearchKeyword] = useState('');
   const [searchResult, setSearchResult] = useState([]);
   const [isSearchActive, setIsSearchActive] = useState(false);
+  const searchKeywordInputRef = useRef(null);
 
   useEffect(() => {
     contactService
@@ -26,9 +27,6 @@ const App = () => {
 
   const handleNewContactNumberChange = ({ target }) =>
     setNewContactNumber(target.value);
-
-  const handleSearchKeywordChange = ({ target }) =>
-    setSearchKeyword(target.value);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -114,6 +112,12 @@ const App = () => {
   const searchContactsByName = (e) => {
     e.preventDefault();
 
+    const searchKeyword =
+      searchKeywordInputRef && searchKeywordInputRef.current
+        ? searchKeywordInputRef.current.value
+        : '';
+    setSearchKeyword(searchKeyword);
+
     let matchedContacts = [];
     if (searchKeyword.trim() !== '') {
       matchedContacts = contacts.filter((contact) =>
@@ -134,8 +138,7 @@ const App = () => {
         <h1>Phonebook</h1>
         <h3>Manage your contacts the easy way</h3>
         <SearchFilter
-          searchKeyword={searchKeyword}
-          onSearchKeywordChange={handleSearchKeywordChange}
+          ref={searchKeywordInputRef}
           onFormSubmit={searchContactsByName}
         />
         <ContactForm

@@ -1,18 +1,15 @@
+import { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 
-const SearchFilter = ({
-  searchKeyword,
-  onSearchKeywordChange,
-  onFormSubmit,
-}) => {
+// eslint-disable-next-line react/display-name
+const SearchFilter = forwardRef((props, ref) => {
   return (
-    <form className='search-filter' onSubmit={onFormSubmit}>
+    <form className='search-filter' onSubmit={props.onFormSubmit}>
       <div>
         <input
           className='keyword-input'
           placeholder='Enter your search keyword'
-          value={searchKeyword}
-          onChange={onSearchKeywordChange}
+          ref={ref}
         />
       </div>
       <div>
@@ -20,11 +17,9 @@ const SearchFilter = ({
       </div>
     </form>
   );
-};
+});
 
 SearchFilter.propTypes = {
-  searchKeyword: PropTypes.string.isRequired,
-  onSearchKeywordChange: PropTypes.func.isRequired,
   onFormSubmit: PropTypes.func.isRequired,
 };
 
