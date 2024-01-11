@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:3001/api/contacts';
+// const BASE_URL = 'http://localhost:3001/api/contacts';
+const BASE_URL = 'https://phonebook-app-backend-5cmf.onrender.com/api/contacts';
 
 const getAll = () => {
   const request = axios.get(BASE_URL);
