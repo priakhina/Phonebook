@@ -1,6 +1,8 @@
+require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
+const mongoose = require('mongoose');
 
 const app = express();
 
@@ -49,13 +51,38 @@ let contacts = [
   },
 ];
 
+mongoose.set('strictQuery', false);
+mongoose
+  .connect(process.env.MONGODB_URI)
+  .then(() => console.log('Successfully connected to MongoDB.'))
+  .catch((error) => console.log('Error connecting to MongoDB:', error.message));
+
+const contactSchema = new mongoose.Schema({
+  name: String,
+  number: String,
+});
+
+contactSchema.set('toJSON', {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id.toString();
+    delete returnedObject._id;
+    delete returnedObject.__v;
+  },
+});
+
+const Contact = mongoose.model('Contact', contactSchema);
+
 const generateId = () => Math.floor(100 + Math.random() * 99901); // generating a random number [100; 100,000]
 
 app.get('/', (request, response) =>
   response.send('<h1>Welcome to the phonebook app!</h1>')
 );
 
-app.get('/api/contacts', (request, response) => response.json(contacts));
+app.get('/api/contacts', (request, response) =>
+  Contact.find({}).then((contacts) => {
+    response.json(contacts);
+  })
+);
 
 app.get('/api/contacts/:id', (request, response) => {
   const id = Number(request.params.id);
