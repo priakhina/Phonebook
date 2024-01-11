@@ -52,8 +52,6 @@ let contacts = [
 
 const Contact = require('./models/contact');
 
-const generateId = () => Math.floor(100 + Math.random() * 99901); // generating a random number [100; 100,000]
-
 app.get('/', (request, response) =>
   response.send('<h1>Welcome to the phonebook app!</h1>')
 );
@@ -101,14 +99,14 @@ app.post('/api/contacts', (request, response) => {
       error: `A contact with name '${body.name}' already exists in the phonebook`,
     });
 
-  const newContact = {
-    ...body,
-    id: generateId(),
-  };
+  const newContact = new Contact({
+    name: body.name,
+    number: body.number,
+  });
 
-  contacts = contacts.concat(newContact);
-
-  response.json(newContact);
+  newContact.save().then((savedContact) => {
+    response.json(savedContact);
+  });
 });
 
 const PORT = process.env.PORT;
