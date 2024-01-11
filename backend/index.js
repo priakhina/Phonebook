@@ -1,4 +1,5 @@
-const http = require('http');
+const express = require('express');
+const app = express();
 
 const contacts = [
   {
@@ -28,11 +29,11 @@ const contacts = [
   },
 ];
 
-const app = http.createServer((request, response) => {
-  response.writeHead(200, { 'Content-Type': 'application/json' });
-  response.end(JSON.stringify(contacts));
-});
+app.get('/', (request, response) =>
+  response.send('<h1>Welcome to the phonebook app!</h1>')
+);
+
+app.get('/api/contacts', (request, response) => response.json(contacts));
 
 const PORT = 3001;
-app.listen(PORT);
-console.log(`Server running on port ${PORT}`);
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
