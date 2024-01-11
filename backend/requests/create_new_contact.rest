@@ -7,3 +7,21 @@ Content-Type: application/json
     "name": "Chris Fox",
     "number": "123-456-78-90"
 }
+
+###
+
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "number": "123-456-78-90"
+}
+
+###
+
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "name": "Chris Fox"
+}

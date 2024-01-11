@@ -64,6 +64,21 @@ app.delete('/api/contacts/:id', (request, response) => {
 app.post('/api/contacts', (request, response) => {
   const body = request.body;
 
+  if (!body.name)
+    return response.status(400).json({ error: 'Name is missing' });
+
+  if (!body.number)
+    return response.status(400).json({ error: 'Number is missing' });
+
+  const containsContactWithSameName = contacts.some(
+    (contact) => contact.name.toUpperCase() === body.name.toUpperCase()
+  );
+
+  if (containsContactWithSameName)
+    return response.status(400).json({
+      error: `A contact with name '${body.name}' already exists in the phonebook`,
+    });
+
   const newContact = {
     ...body,
     id: generateId(),
