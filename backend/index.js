@@ -1,6 +1,11 @@
 const express = require('express');
 const app = express();
 
+// json-parser (https://expressjs.com/en/api.html)
+// transforms the JSON data of a request into a JavaScript object;
+// the parsed data is accessed via the body property of the request object (i.e., request.body)
+app.use(express.json());
+
 let contacts = [
   {
     id: 1,
@@ -29,6 +34,8 @@ let contacts = [
   },
 ];
 
+const generateId = () => Math.floor(100 + Math.random() * 99901); // generating a random number [100; 100,000]
+
 app.get('/', (request, response) =>
   response.send('<h1>Welcome to the phonebook app!</h1>')
 );
@@ -52,6 +59,19 @@ app.delete('/api/contacts/:id', (request, response) => {
   contacts = contacts.filter((contact) => contact.id !== id);
 
   response.status(204).end();
+});
+
+app.post('/api/contacts', (request, response) => {
+  const body = request.body;
+
+  const newContact = {
+    ...body,
+    id: generateId(),
+  };
+
+  contacts = contacts.concat(newContact);
+
+  response.json(newContact);
 });
 
 const PORT = 3001;
