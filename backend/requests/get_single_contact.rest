@@ -1,1 +1,3 @@
-GET http://localhost:3001/api/contacts/1
+@baseUrl = http://localhost:3001/api/contacts
+
+GET {{baseUrl}}/1
