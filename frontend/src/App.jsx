@@ -56,6 +56,7 @@ const App = () => {
 
     contactService.create(newContact).then((returnedContact) => {
       setContacts([...contacts, returnedContact]);
+      setSearchResult([...searchResult, returnedContact]);
       setNewContactName('');
       setNewContactNumber('');
     });
@@ -72,7 +73,11 @@ const App = () => {
             contact.id !== contactToUpdate.id ? contact : returnedContact
           )
         );
-
+        setSearchResult(
+          searchResult.map((contact) =>
+            contact.id !== contactToUpdate.id ? contact : returnedContact
+          )
+        );
         setNewContactName('');
         setNewContactNumber('');
       })
@@ -83,6 +88,9 @@ const App = () => {
         );
         setContacts(
           contacts.filter((contact) => contact.id !== contactToUpdate.id)
+        );
+        setSearchResult(
+          searchResult.filter((contact) => contact.id !== contactToUpdate.id)
         );
       });
   };
@@ -96,15 +104,17 @@ const App = () => {
     if (shouldDelete) {
       contactService
         .remove(id)
-        .then(() =>
-          setContacts(contacts.filter((contact) => contact.id !== id))
-        )
+        .then(() => {
+          setContacts(contacts.filter((contact) => contact.id !== id));
+          setSearchResult(searchResult.filter((contact) => contact.id !== id));
+        })
         .catch((error) => {
           console.log(error);
           alert(
             `"${contactToDelete.name}" is already deleted from the phonebook!`
           );
           setContacts(contacts.filter((contact) => contact.id !== id));
+          setSearchResult(searchResult.filter((contact) => contact.id !== id));
         });
     }
   };
