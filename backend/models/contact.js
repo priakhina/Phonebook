@@ -7,8 +7,15 @@ mongoose
   .catch((error) => console.log('Error connecting to MongoDB:', error.message));
 
 const contactSchema = new mongoose.Schema({
-  name: String,
-  number: String,
+  name: {
+    type: String,
+    minLength: [3, 'The name has to be at least 3 characters long.'],
+    required: true,
+  },
+  number: {
+    type: String,
+    required: true,
+  },
 });
 
 contactSchema.set('toJSON', {

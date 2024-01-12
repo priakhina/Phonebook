@@ -33,6 +33,8 @@ const errorHandler = (error, req, res, next) => {
 
   if (error.name === 'CastError') {
     return res.status(400).send({ error: 'malformed id' });
+  } else if (error.name === 'ValidationError') {
+    return res.status(400).json({ error: error.message });
   }
 
   next(error); // passes the error forward to the default Express error handler
@@ -67,23 +69,18 @@ app.delete('/api/contacts/:id', (request, response, next) => {
     .catch((error) => next(error));
 });
 
-app.post('/api/contacts', (request, response) => {
+app.post('/api/contacts', (request, response, next) => {
   const body = request.body;
-
-  if (!body.name)
-    return response.status(400).json({ error: 'Name is missing' });
-
-  if (!body.number)
-    return response.status(400).json({ error: 'Number is missing' });
 
   const newContact = new Contact({
     name: body.name,
     number: body.number,
   });
 
-  newContact.save().then((savedContact) => {
-    response.json(savedContact);
-  });
+  newContact
+    .save()
+    .then((savedContact) => response.json(savedContact))
+    .catch((error) => next(error));
 });
 
 app.put('/api/contacts/:id', (request, response, next) => {
@@ -94,8 +91,13 @@ app.put('/api/contacts/:id', (request, response, next) => {
     number: body.number,
   };
 
-  // the optional { new: true } parameter causes the event handler to be called with the new modified person instead of the original
-  Contact.findByIdAndUpdate(request.params.id, contact, { new: true })
+  // the optional { new: true } parameter causes the event handler to be called with the new modified person instead of the original;
+  // on update operations, mongoose validators are off by default, so we need to specify the runValidators option
+  Contact.findByIdAndUpdate(request.params.id, contact, {
+    new: true,
+    runValidators: true,
+    context: 'query',
+  })
     .then((updatedContact) => {
       response.json(updatedContact);
     })
