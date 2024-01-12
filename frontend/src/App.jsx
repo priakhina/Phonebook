@@ -3,6 +3,7 @@ import SearchFilter from './components/SearchFilter';
 import ContactForm from './components/ContactForm';
 import AlphabetTabs from './components/AlphabetTabs';
 import Contacts from './components/Contacts';
+import Notification from './components/Notification';
 import contactService from './services/contacts';
 
 import './App.css';
@@ -14,6 +15,7 @@ const App = () => {
   const [searchKeyword, setSearchKeyword] = useState('');
   const [searchResult, setSearchResult] = useState([]);
   const [isSearchActive, setIsSearchActive] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState(null);
   const searchKeywordInputRef = useRef(null);
 
   useEffect(() => {
@@ -61,10 +63,25 @@ const App = () => {
         setSearchResult([...searchResult, returnedContact]);
         setNewContactName('');
         setNewContactNumber('');
+
+        setNotificationMessage({
+          type: 'success',
+          message: `Added "${returnedContact.name}" to the phonebook.`,
+        });
+        setTimeout(() => {
+          setNotificationMessage(null);
+        }, 5000);
       })
       .catch((error) => {
         const errorMessage = error.response.data.error;
-        console.error(errorMessage);
+
+        setNotificationMessage({
+          type: 'failure',
+          message: errorMessage,
+        });
+        setTimeout(() => {
+          setNotificationMessage(null);
+        }, 5000);
       });
   };
 
@@ -86,12 +103,24 @@ const App = () => {
         );
         setNewContactName('');
         setNewContactNumber('');
+
+        setNotificationMessage({
+          type: 'success',
+          message: `Updated ${returnedContact.name}'s phone number to ${returnedContact.number}.`,
+        });
+        setTimeout(() => {
+          setNotificationMessage(null);
+        }, 5000);
       })
       .catch((error) => {
-        console.log(error);
-        alert(
-          `"${contactToUpdate.name.trim()}" was already deleted from the phonebook!`
-        );
+        setNotificationMessage({
+          type: 'failure',
+          message: `${contactToUpdate.name}'s contact info has already been removed from the phonebook.`,
+        });
+        setTimeout(() => {
+          setNotificationMessage(null);
+        }, 5000);
+
         setContacts(
           contacts.filter((contact) => contact.id !== contactToUpdate.id)
         );
@@ -115,10 +144,14 @@ const App = () => {
           setSearchResult(searchResult.filter((contact) => contact.id !== id));
         })
         .catch((error) => {
-          console.log(error);
-          alert(
-            `"${contactToDelete.name}" is already deleted from the phonebook!`
-          );
+          setNotificationMessage({
+            type: 'failure',
+            message: `${contactToDelete.name}'s contact info has already been removed from the phonebook.`,
+          });
+          setTimeout(() => {
+            setNotificationMessage(null);
+          }, 5000);
+
           setContacts(contacts.filter((contact) => contact.id !== id));
           setSearchResult(searchResult.filter((contact) => contact.id !== id));
         });
@@ -152,6 +185,10 @@ const App = () => {
       <div className='main-view'>
         <h1>Phonebook</h1>
         <h3>Manage your contacts the easy way</h3>
+        <Notification
+          message={notificationMessage ? notificationMessage.message : null}
+          type={notificationMessage ? notificationMessage.type : null}
+        />
         <SearchFilter
           ref={searchKeywordInputRef}
           onFormSubmit={searchContactsByName}
