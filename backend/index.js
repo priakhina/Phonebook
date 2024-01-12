@@ -103,15 +103,6 @@ app.post('/api/contacts', (request, response) => {
   if (!body.number)
     return response.status(400).json({ error: 'Number is missing' });
 
-  const containsContactWithSameName = contacts.some(
-    (contact) => contact.name.toUpperCase() === body.name.toUpperCase()
-  );
-
-  if (containsContactWithSameName)
-    return response.status(400).json({
-      error: `A contact with name '${body.name}' already exists in the phonebook`,
-    });
-
   const newContact = new Contact({
     name: body.name,
     number: body.number,
@@ -120,6 +111,22 @@ app.post('/api/contacts', (request, response) => {
   newContact.save().then((savedContact) => {
     response.json(savedContact);
   });
+});
+
+app.put('/api/contacts/:id', (request, response, next) => {
+  const body = request.body;
+
+  const contact = {
+    name: body.name,
+    number: body.number,
+  };
+
+  // the optional { new: true } parameter causes the event handler to be called with the new modified person instead of the original
+  Contact.findByIdAndUpdate(request.params.id, contact, { new: true })
+    .then((updatedContact) => {
+      response.json(updatedContact);
+    })
+    .catch((error) => next(error));
 });
 
 // handler of requests with unknown endpoint (the unknown endpoint middleware)
