@@ -1,0 +1,10 @@
+@baseUrl = http://localhost:3001/api/contacts
+@contactId = 65a0b229e5a6878488eaebea
+
+PUT {{baseUrl}}/{{contactId}}
+Content-Type: application/json
+
+{
+    "name": "Chris Fox",
+    "number": "123-456-99-99"
+}
