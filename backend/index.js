@@ -24,15 +24,14 @@ app.use(cors());
 
 const Contact = require('./models/contact');
 
-const unknownEndpoint = (req, res) => {
-  res.status(404).send({ error: 'unknown endpoint' });
-};
+const unknownEndpoint = (request, response) =>
+  response.status(404).send({ error: 'unknown endpoint' });
 
-const errorHandler = (error, req, res, next) => {
+const errorHandler = (error, request, response, next) => {
   console.error(error.message);
 
   if (error.name === 'CastError') {
-    return res.status(400).send({ error: 'malformed id' });
+    return response.status(400).send({ error: 'malformed id' });
   } else if (error.name === 'ValidationError') {
     const errors = [];
 
@@ -41,7 +40,7 @@ const errorHandler = (error, req, res, next) => {
       errors.push(error.errors[key].message);
     });
 
-    return res.status(400).json({ error: errors.join(' ') });
+    return response.status(400).json({ error: errors.join(' ') });
   }
 
   next(error); // passes the error forward to the default Express error handler
@@ -52,9 +51,7 @@ app.get('/', (request, response) =>
 );
 
 app.get('/api/contacts', (request, response) =>
-  Contact.find({}).then((contacts) => {
-    response.json(contacts);
-  })
+  Contact.find({}).then((contacts) => response.json(contacts))
 );
 
 app.get('/api/contacts/:id', (request, response, next) => {
@@ -77,37 +74,29 @@ app.delete('/api/contacts/:id', (request, response, next) => {
 });
 
 app.post('/api/contacts', (request, response, next) => {
-  const body = request.body;
+  const { name, number } = request.body;
 
-  const newContact = new Contact({
-    name: body.name,
-    number: body.number,
-  });
-
-  newContact
+  new Contact({ name, number })
     .save()
     .then((savedContact) => response.json(savedContact))
     .catch((error) => next(error));
 });
 
 app.put('/api/contacts/:id', (request, response, next) => {
-  const body = request.body;
-
-  const contact = {
-    name: body.name,
-    number: body.number,
-  };
+  const { name, number } = request.body;
 
   // the optional { new: true } parameter causes the event handler to be called with the new modified person instead of the original;
   // on update operations, mongoose validators are off by default, so we need to specify the runValidators option
-  Contact.findByIdAndUpdate(request.params.id, contact, {
-    new: true,
-    runValidators: true,
-    context: 'query',
-  })
-    .then((updatedContact) => {
-      response.json(updatedContact);
-    })
+  Contact.findByIdAndUpdate(
+    request.params.id,
+    { name, number },
+    {
+      new: true,
+      runValidators: true,
+      context: 'query',
+    }
+  )
+    .then((updatedContact) => response.json(updatedContact))
     .catch((error) => next(error));
 });
 
