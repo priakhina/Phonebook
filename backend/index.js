@@ -22,34 +22,6 @@ app.use(
 // cors (https://github.com/expressjs/cors) is a middleware that enables CORS (Cross-Origin Resource Sharing) mechanism
 app.use(cors());
 
-let contacts = [
-  {
-    id: 1,
-    name: 'John Doe',
-    number: '587-123-4567',
-  },
-  {
-    id: 2,
-    name: 'Arto Hellas',
-    number: '040-123456',
-  },
-  {
-    id: 3,
-    name: 'Ada Lovelace',
-    number: '39-44-5323523',
-  },
-  {
-    id: 4,
-    name: 'Dan Abramov',
-    number: '12-43-234345',
-  },
-  {
-    id: 5,
-    name: 'Mary Poppendieck',
-    number: '39-23-6423122',
-  },
-];
-
 const Contact = require('./models/contact');
 
 const unknownEndpoint = (req, res) => {
