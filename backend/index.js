@@ -76,16 +76,17 @@ app.get('/api/contacts', (request, response) =>
   })
 );
 
-app.get('/api/contacts/:id', (request, response) => {
-  const id = Number(request.params.id);
-  const contact = contacts.find((contact) => contact.id === id);
-
-  if (!contact) {
-    response.statusMessage = `No contact found with the specified id (${id})`;
-    return response.status(404).end();
-  }
-
-  response.json(contact);
+app.get('/api/contacts/:id', (request, response, next) => {
+  Contact.findById(request.params.id)
+    .then((contact) => {
+      if (contact) {
+        response.json(contact);
+      } else {
+        response.statusMessage = `No contact found with the specified id (${request.params.id})`;
+        response.status(404).end();
+      }
+    })
+    .catch((error) => next(error));
 });
 
 app.delete('/api/contacts/:id', (request, response, next) => {
