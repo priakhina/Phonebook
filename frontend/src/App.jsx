@@ -63,7 +63,7 @@ const App = () => {
         setNewContactNumber('');
       })
       .catch((error) => {
-        const errorMessage = error.response.data.error.split(': ')[2];
+        const errorMessage = error.response.data.error;
         console.error(errorMessage);
       });
   };
