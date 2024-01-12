@@ -1,3 +1,4 @@
 @baseUrl = http://localhost:3001/api/contacts
+@contactId = 65a0b229e5a6878488eaebea
 
-DELETE {{baseUrl}}/1
+DELETE {{baseUrl}}/{{contactId}}
