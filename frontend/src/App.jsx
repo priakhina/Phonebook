@@ -54,12 +54,18 @@ const App = () => {
       number: newContactNumber.trim(),
     };
 
-    contactService.create(newContact).then((returnedContact) => {
-      setContacts([...contacts, returnedContact]);
-      setSearchResult([...searchResult, returnedContact]);
-      setNewContactName('');
-      setNewContactNumber('');
-    });
+    contactService
+      .create(newContact)
+      .then((returnedContact) => {
+        setContacts([...contacts, returnedContact]);
+        setSearchResult([...searchResult, returnedContact]);
+        setNewContactName('');
+        setNewContactNumber('');
+      })
+      .catch((error) => {
+        const errorMessage = error.response.data.error.split(': ')[2];
+        console.error(errorMessage);
+      });
   };
 
   const updateContactNumber = (contactToUpdate) => {
