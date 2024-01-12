@@ -4,7 +4,7 @@ const Notification = ({ message, type }) => {
   const className = `notification ${type}`;
 
   return (
-    message !== null && (
+    message && (
       <div className={className}>
         <span>{type}</span>
         {message}

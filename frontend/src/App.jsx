@@ -15,7 +15,8 @@ const App = () => {
   const [searchKeyword, setSearchKeyword] = useState('');
   const [searchResult, setSearchResult] = useState([]);
   const [isSearchActive, setIsSearchActive] = useState(false);
-  const [notificationMessage, setNotificationMessage] = useState(null);
+  const [notificationMessage, setNotificationMessage] = useState('');
+  const [notificationType, setNotificationType] = useState('');
   const searchKeywordInputRef = useRef(null);
 
   useEffect(() => {
@@ -23,6 +24,14 @@ const App = () => {
       .getAll()
       .then((initialContacts) => setContacts(initialContacts));
   }, []);
+
+  const displayNotification = (message, isError = false) => {
+    setNotificationMessage(message);
+    setNotificationType(isError ? 'failure' : 'success');
+    setTimeout(() => {
+      setNotificationMessage('');
+    }, 5000);
+  };
 
   const handleNewContactNameChange = ({ target }) =>
     setNewContactName(target.value);
@@ -61,27 +70,17 @@ const App = () => {
       .then((returnedContact) => {
         setContacts([...contacts, returnedContact]);
         setSearchResult([...searchResult, returnedContact]);
+
         setNewContactName('');
         setNewContactNumber('');
 
-        setNotificationMessage({
-          type: 'success',
-          message: `Added "${returnedContact.name}" to the phonebook.`,
-        });
-        setTimeout(() => {
-          setNotificationMessage(null);
-        }, 5000);
+        displayNotification(
+          `Added "${returnedContact.name}" to the phonebook.`
+        );
       })
       .catch((error) => {
         const errorMessage = error.response.data.error;
-
-        setNotificationMessage({
-          type: 'failure',
-          message: errorMessage,
-        });
-        setTimeout(() => {
-          setNotificationMessage(null);
-        }, 5000);
+        displayNotification(errorMessage, true);
       });
   };
 
@@ -101,25 +100,19 @@ const App = () => {
             contact.id !== contactToUpdate.id ? contact : returnedContact
           )
         );
+
         setNewContactName('');
         setNewContactNumber('');
 
-        setNotificationMessage({
-          type: 'success',
-          message: `Updated ${returnedContact.name}'s phone number to ${returnedContact.number}.`,
-        });
-        setTimeout(() => {
-          setNotificationMessage(null);
-        }, 5000);
+        displayNotification(
+          `Updated ${returnedContact.name}'s phone number to ${returnedContact.number}.`
+        );
       })
       .catch((error) => {
-        setNotificationMessage({
-          type: 'failure',
-          message: `${contactToUpdate.name}'s contact info has already been removed from the phonebook.`,
-        });
-        setTimeout(() => {
-          setNotificationMessage(null);
-        }, 5000);
+        displayNotification(
+          `${contactToUpdate.name}'s contact info has already been removed from the phonebook.`,
+          true
+        );
 
         setContacts(
           contacts.filter((contact) => contact.id !== contactToUpdate.id)
@@ -142,15 +135,16 @@ const App = () => {
         .then(() => {
           setContacts(contacts.filter((contact) => contact.id !== id));
           setSearchResult(searchResult.filter((contact) => contact.id !== id));
+
+          displayNotification(
+            `Deleted "${contactToDelete.name}" from the phonebook.`
+          );
         })
         .catch((error) => {
-          setNotificationMessage({
-            type: 'failure',
-            message: `${contactToDelete.name}'s contact info has already been removed from the phonebook.`,
-          });
-          setTimeout(() => {
-            setNotificationMessage(null);
-          }, 5000);
+          displayNotification(
+            `${contactToDelete.name}'s contact info has already been removed from the phonebook.`,
+            true
+          );
 
           setContacts(contacts.filter((contact) => contact.id !== id));
           setSearchResult(searchResult.filter((contact) => contact.id !== id));
@@ -185,10 +179,7 @@ const App = () => {
       <div className='main-view'>
         <h1>Phonebook</h1>
         <h3>Manage your contacts the easy way</h3>
-        <Notification
-          message={notificationMessage ? notificationMessage.message : null}
-          type={notificationMessage ? notificationMessage.type : null}
-        />
+        <Notification message={notificationMessage} type={notificationType} />
         <SearchFilter
           ref={searchKeywordInputRef}
           onFormSubmit={searchContactsByName}
