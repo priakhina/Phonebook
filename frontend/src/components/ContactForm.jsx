@@ -1,16 +1,29 @@
 import PropTypes from 'prop-types';
 
 const ContactForm = ({
-  newContactName,
+  newContactFirstName,
+  newContactLastName,
   newContactNumber,
-  onNewContactNameChange,
+  onNewContactFirstNameChange,
+  onNewContactLastNameChange,
   onNewContactNumberChange,
   onFormSubmit,
 }) => {
   return (
     <form onSubmit={onFormSubmit}>
       <div>
-        Name: <input value={newContactName} onChange={onNewContactNameChange} />
+        First Name:{' '}
+        <input
+          value={newContactFirstName}
+          onChange={onNewContactFirstNameChange}
+        />
+      </div>
+      <div>
+        Last Name:{' '}
+        <input
+          value={newContactLastName}
+          onChange={onNewContactLastNameChange}
+        />
       </div>
       <div>
         Number:{' '}
@@ -28,9 +41,11 @@ const ContactForm = ({
 };
 
 ContactForm.propTypes = {
-  newContactName: PropTypes.string.isRequired,
+  newContactFirstName: PropTypes.string.isRequired,
+  newContactLastName: PropTypes.string.isRequired,
   newContactNumber: PropTypes.string.isRequired,
-  onNewContactNameChange: PropTypes.func.isRequired,
+  onNewContactFirstNameChange: PropTypes.func.isRequired,
+  onNewContactLastNameChange: PropTypes.func.isRequired,
   onNewContactNumberChange: PropTypes.func.isRequired,
   onFormSubmit: PropTypes.func.isRequired,
 };

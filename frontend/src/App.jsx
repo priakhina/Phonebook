@@ -10,7 +10,8 @@ import './App.css';
 
 const App = () => {
   const [contacts, setContacts] = useState([]);
-  const [newContactName, setNewContactName] = useState('');
+  const [newContactFirstName, setNewContactFirstName] = useState('');
+  const [newContactLastName, setNewContactLastName] = useState('');
   const [newContactNumber, setNewContactNumber] = useState('');
   const [searchKeyword, setSearchKeyword] = useState('');
   const [searchResult, setSearchResult] = useState([]);
@@ -30,8 +31,11 @@ const App = () => {
     setNotificationType(isError ? 'failure' : 'success');
   };
 
-  const handleNewContactNameChange = ({ target }) =>
-    setNewContactName(target.value);
+  const handleNewContactFirstNameChange = ({ target }) =>
+    setNewContactFirstName(target.value);
+
+  const handleNewContactLastNameChange = ({ target }) =>
+    setNewContactLastName(target.value);
 
   const handleNewContactNumberChange = ({ target }) =>
     setNewContactNumber(target.value);
@@ -39,13 +43,15 @@ const App = () => {
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
+    const newContactFullName = `${newContactFirstName.trim()} ${newContactLastName.trim()}`;
+
     const duplicateContact = contacts.find(
-      (contact) => contact.name === newContactName.trim()
+      (contact) => contact.fullName === newContactFullName
     );
 
     if (duplicateContact) {
       const shouldUpdate = window.confirm(
-        `"${newContactName.trim()}" is already added to the phonebook. Replace the old number with a new one?`
+        `"${newContactFullName}" is already added to the phonebook. Replace the old number with a new one?`
       );
 
       if (shouldUpdate) {
@@ -58,7 +64,9 @@ const App = () => {
 
   const addContact = () => {
     const newContact = {
-      name: newContactName.trim(),
+      firstName: newContactFirstName.trim(),
+      lastName: newContactLastName.trim(),
+      fullName: `${newContactFirstName.trim()} ${newContactLastName.trim()}`,
       number: newContactNumber.trim(),
     };
 
@@ -68,11 +76,12 @@ const App = () => {
         setContacts([...contacts, returnedContact]);
         setSearchResult([...searchResult, returnedContact]);
 
-        setNewContactName('');
+        setNewContactFirstName('');
+        setNewContactLastName('');
         setNewContactNumber('');
 
         displayNotification(
-          `Added "${returnedContact.name}" to the phonebook.`
+          `Added "${returnedContact.fullName}" to the phonebook.`
         );
       })
       .catch((error) => {
@@ -98,16 +107,17 @@ const App = () => {
           )
         );
 
-        setNewContactName('');
+        setNewContactFirstName('');
+        setNewContactLastName('');
         setNewContactNumber('');
 
         displayNotification(
-          `Updated ${returnedContact.name}'s phone number to ${returnedContact.number}.`
+          `Updated ${returnedContact.fullName}'s phone number to ${returnedContact.number}.`
         );
       })
       .catch((error) => {
         displayNotification(
-          `${contactToUpdate.name}'s contact info has already been removed from the phonebook.`,
+          `${contactToUpdate.fullName}'s contact info has already been removed from the phonebook.`,
           true
         );
 
@@ -123,7 +133,7 @@ const App = () => {
   const deleteContact = (id) => {
     const contactToDelete = contacts.find((contact) => contact.id === id);
     const shouldDelete = window.confirm(
-      `Are you sure you want to remove "${contactToDelete.name}" from the phonebook?`
+      `Are you sure you want to remove "${contactToDelete.fullName}" from the phonebook?`
     );
 
     if (shouldDelete) {
@@ -134,12 +144,12 @@ const App = () => {
           setSearchResult(searchResult.filter((contact) => contact.id !== id));
 
           displayNotification(
-            `Deleted "${contactToDelete.name}" from the phonebook.`
+            `Deleted "${contactToDelete.fullName}" from the phonebook.`
           );
         })
         .catch((error) => {
           displayNotification(
-            `${contactToDelete.name}'s contact info has already been removed from the phonebook.`,
+            `${contactToDelete.fullName}'s contact info has already been removed from the phonebook.`,
             true
           );
 
@@ -161,7 +171,9 @@ const App = () => {
     let matchedContacts = [];
     if (searchKeyword.trim() !== '') {
       matchedContacts = contacts.filter((contact) =>
-        contact.name.toLowerCase().includes(searchKeyword.toLowerCase().trim())
+        contact.fullName
+          .toLowerCase()
+          .includes(searchKeyword.toLowerCase().trim())
       );
     }
 
@@ -182,9 +194,11 @@ const App = () => {
           onFormSubmit={searchContactsByName}
         />
         <ContactForm
-          newContactName={newContactName}
+          newContactFirstName={newContactFirstName}
+          newContactLastName={newContactLastName}
           newContactNumber={newContactNumber}
-          onNewContactNameChange={handleNewContactNameChange}
+          onNewContactFirstNameChange={handleNewContactFirstNameChange}
+          onNewContactLastNameChange={handleNewContactLastNameChange}
           onNewContactNumberChange={handleNewContactNumberChange}
           onFormSubmit={handleFormSubmit}
         />
