@@ -31,15 +31,34 @@
   position: relative;
 }
 
-.contacts-view h2 {
+.contacts-view .search-by-keyword-info > h2 {
   margin-bottom: 15px;
+}
+
+.contacts-view .search-by-letter-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.contacts-view .search-by-letter-info > h2 {
+  font-size: 3.5rem;
+  margin-right: 30px;
+}
+
+.contacts-view .search-by-letter-info > h5 {
+  font-size: 1.25rem;
+}
+
+.contacts-view .search-by-letter-info > h5 > span {
+  display: block;
 }
 
 .contacts {
   counter-reset: contact-number 0;
 }
 
-.contacts > .contact {
+.contacts-list > .contact {
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
@@ -48,7 +67,7 @@
   position: relative;
 }
 
-.contacts > .contact:before {
+.contacts-list > .contact:before {
   content: counter(contact-number);
   width: 25px;
   height: 25px;
@@ -62,17 +81,17 @@
   left: 0;
 }
 
-.contacts .keyword {
+.contacts .search-by-keyword-info > .keyword {
   margin-bottom: 10px;
 }
 
-.contacts .keyword > span {
+.contacts .search-by-keyword-info > .keyword > span {
   font-size: 1.75rem;
   font-weight: 600;
   color: #ffa500;
 }
 
-.contact-details > .name {
+.contact > .contact-details > .name {
   font-size: 1.5rem;
 }
 

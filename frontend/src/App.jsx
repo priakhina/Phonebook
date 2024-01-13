@@ -14,8 +14,10 @@ const App = () => {
   const [newContactLastName, setNewContactLastName] = useState('');
   const [newContactNumber, setNewContactNumber] = useState('');
   const [searchKeyword, setSearchKeyword] = useState('');
+  const [searchLetter, setSearchLetter] = useState('');
   const [searchResult, setSearchResult] = useState([]);
   const [isSearchActive, setIsSearchActive] = useState(false);
+  const [isSearchByKeyword, setIsSearchByKeyword] = useState(true);
   const [notificationMessage, setNotificationMessage] = useState('');
   const [notificationType, setNotificationType] = useState('');
   const searchKeywordInputRef = useRef(null);
@@ -179,6 +181,19 @@ const App = () => {
 
     setSearchResult(matchedContacts);
     setIsSearchActive(true);
+    setIsSearchByKeyword(true);
+  };
+
+  const filterContactsByFirstLetter = (letter) => {
+    setSearchLetter(letter);
+
+    let matchedContacts = contacts.filter((contact) =>
+      contact.firstName.toLowerCase().startsWith(letter.toLowerCase())
+    );
+
+    setSearchResult(matchedContacts);
+    setIsSearchActive(true);
+    setIsSearchByKeyword(false);
   };
 
   return (
@@ -204,10 +219,12 @@ const App = () => {
         />
       </div>
       <div className='contacts-view'>
-        <AlphabetTabs />
+        <AlphabetTabs onClick={filterContactsByFirstLetter} />
         <Contacts
           contacts={searchResult}
+          isSearchByKeyword={isSearchByKeyword}
           searchKeyword={searchKeyword}
+          searchLetter={searchLetter}
           onContactDelete={deleteContact}
         />
       </div>

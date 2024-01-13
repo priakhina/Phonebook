@@ -1,4 +1,6 @@
-const AlphabetTabs = () => {
+import PropTypes from 'prop-types';
+
+const AlphabetTabs = ({ onClick }) => {
   const generateCharArray = (charA, charZ) => {
     let arr = [],
       i = charA.charCodeAt(0),
@@ -12,10 +14,16 @@ const AlphabetTabs = () => {
   return (
     <div className='alphabet-tabs'>
       {generateCharArray('A', 'Z').map((letter) => (
-        <button key={letter}>{letter}</button>
+        <button key={letter} onClick={() => onClick(letter)}>
+          {letter}
+        </button>
       ))}
     </div>
   );
+};
+
+AlphabetTabs.propTypes = {
+  onClick: PropTypes.func.isRequired,
 };
 
 export default AlphabetTabs;
