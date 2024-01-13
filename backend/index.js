@@ -74,22 +74,22 @@ app.delete('/api/contacts/:id', (request, response, next) => {
 });
 
 app.post('/api/contacts', (request, response, next) => {
-  const { name, number } = request.body;
+  const { firstName, lastName, fullName, number } = request.body;
 
-  new Contact({ name, number })
+  new Contact({ firstName, lastName, fullName, number })
     .save()
     .then((savedContact) => response.json(savedContact))
     .catch((error) => next(error));
 });
 
 app.put('/api/contacts/:id', (request, response, next) => {
-  const { name, number } = request.body;
+  const { firstName, lastName, fullName, number } = request.body;
 
   // the optional { new: true } parameter causes the event handler to be called with the new modified person instead of the original;
   // on update operations, mongoose validators are off by default, so we need to specify the runValidators option
   Contact.findByIdAndUpdate(
     request.params.id,
-    { name, number },
+    { firstName, lastName, fullName, number },
     {
       new: true,
       runValidators: true,

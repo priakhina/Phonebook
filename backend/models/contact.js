@@ -7,10 +7,19 @@ mongoose
   .catch((error) => console.log('Error connecting to MongoDB:', error.message));
 
 const contactSchema = new mongoose.Schema({
-  name: {
+  firstName: {
     type: String,
-    minLength: [3, 'Name has to be at least 3 characters long.'],
-    required: [true, 'Name is required.'],
+    minLength: [3, 'First name has to be at least 3 characters long.'],
+    required: [true, 'First name is required.'],
+  },
+  lastName: {
+    type: String,
+    minLength: [3, 'Last name has to be at least 3 characters long.'],
+    required: [true, 'Last name is required.'],
+  },
+  fullName: {
+    type: String,
+    required: true,
   },
   number: {
     type: String,
