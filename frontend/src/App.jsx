@@ -28,9 +28,6 @@ const App = () => {
   const displayNotification = (message, isError = false) => {
     setNotificationMessage(message);
     setNotificationType(isError ? 'failure' : 'success');
-    setTimeout(() => {
-      setNotificationMessage('');
-    }, 5000);
   };
 
   const handleNewContactNameChange = ({ target }) =>
