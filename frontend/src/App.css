@@ -135,26 +135,6 @@
   box-shadow: -7px 5px 5px -2px rgba(156, 156, 156, 0.5);
 }
 
-.alphabet-tabs > button:nth-child(5n-4) {
-  background: #ffcba4;
-}
-
-.alphabet-tabs > button:nth-child(5n-3) {
-  background: #ff8700;
-}
-
-.alphabet-tabs > button:nth-child(5n-2) {
-  background: #ff7518;
-}
-
-.alphabet-tabs > button:nth-child(5n-1) {
-  background: #ff6600;
-}
-
-.alphabet-tabs > button:nth-child(5n-5) {
-  background: #e2725b;
-}
-
 .notification {
   width: 80%;
   background: white;
