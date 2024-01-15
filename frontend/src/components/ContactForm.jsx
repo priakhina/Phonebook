@@ -10,32 +10,35 @@ const ContactForm = ({
   onFormSubmit,
 }) => {
   return (
-    <form onSubmit={onFormSubmit}>
-      <div>
-        First Name:{' '}
-        <input
-          value={newContactFirstName}
-          onChange={onNewContactFirstNameChange}
-        />
+    <form id='contact-form' onSubmit={onFormSubmit}>
+      <div className='form-fields'>
+        <div className='form-field'>
+          <label htmlFor='firstName'>First Name:</label>
+          <input
+            id='firstName'
+            value={newContactFirstName}
+            onChange={onNewContactFirstNameChange}
+          />
+        </div>
+        <div className='form-field'>
+          <label htmlFor='lastName'>Last Name:</label>
+          <input
+            id='lastName'
+            value={newContactLastName}
+            onChange={onNewContactLastNameChange}
+          />
+        </div>
+        <div className='form-field'>
+          <label htmlFor='phoneNumber'>Number:</label>
+          <input
+            id='phoneNumber'
+            type='tel'
+            value={newContactNumber}
+            onChange={onNewContactNumberChange}
+          />
+        </div>
       </div>
-      <div>
-        Last Name:{' '}
-        <input
-          value={newContactLastName}
-          onChange={onNewContactLastNameChange}
-        />
-      </div>
-      <div>
-        Number:{' '}
-        <input
-          type='tel'
-          value={newContactNumber}
-          onChange={onNewContactNumberChange}
-        />
-      </div>
-      <div>
-        <button type='submit'>Add this contact</button>
-      </div>
+      <button type='submit'>Add this contact</button>
     </form>
   );
 };
