@@ -224,12 +224,15 @@ const App = () => {
       <div
         className='contacts-view'
         style={{
-          backgroundColor: searchLetterBackgroundColor
-            ? searchLetterBackgroundColor
-            : '#fff',
+          backgroundColor: isSearchByKeyword
+            ? '#fff'
+            : searchLetterBackgroundColor,
         }}
       >
-        <AlphabetTabs onClick={filterContactsByFirstLetter} />
+        <AlphabetTabs
+          isSearchByKeyword={isSearchByKeyword}
+          onClick={filterContactsByFirstLetter}
+        />
         <Contacts
           contacts={searchResult}
           isSearchByKeyword={isSearchByKeyword}

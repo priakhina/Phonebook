@@ -1,8 +1,12 @@
 import { useRef } from 'react';
 import PropTypes from 'prop-types';
 
-const AlphabetTabs = ({ onClick }) => {
+const AlphabetTabs = ({ isSearchByKeyword, onClick }) => {
   const previousActiveTab = useRef(null);
+
+  if (isSearchByKeyword && previousActiveTab.current) {
+    previousActiveTab.current.style.borderRightColor = '#fff';
+  }
 
   const backgroundColors = [
     '#ff7518',
@@ -52,6 +56,7 @@ const AlphabetTabs = ({ onClick }) => {
 };
 
 AlphabetTabs.propTypes = {
+  isSearchByKeyword: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired,
 };
 
