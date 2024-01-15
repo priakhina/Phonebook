@@ -9,19 +9,19 @@ The frontend is created with React.js, the backend is implemented on top of Node
 An online version of the Phonebook app can be accessed via [https://full-stack-phonebook-app.onrender.com](https://full-stack-phonebook-app.onrender.com).
 
 <div align="center">
-  <a href="https://https://full-stack-phonebook-app.onrender.com/" target="_blank" rel="noreferrer">
+  <a href="https://full-stack-phonebook-app.onrender.com/" target="_blank" rel="noreferrer">
     <kbd><img src="docs/images/phonebook_main_view.png" alt="Phonebook App - Main View" /></kbd>
   </a>
 </div>
 <br/>
 <div align="center">
-  <a href="https://https://full-stack-phonebook-app.onrender.com/" target="_blank" rel="noreferrer">
+  <a href="https://full-stack-phonebook-app.onrender.com/" target="_blank" rel="noreferrer">
     <kbd><img src="docs/images/phonebook_search-by-keyword.png" alt="Phonebook App - Search by Keyword" /></kbd>
   </a>
 </div>
 <br/>
 <div align="center">
-  <a href="https://https://full-stack-phonebook-app.onrender.com/" target="_blank" rel="noreferrer">
+  <a href="https://full-stack-phonebook-app.onrender.com/" target="_blank" rel="noreferrer">
     <kbd><img src="docs/images/phonebook_search-by-first-letter.png" alt="Phonebook App - Search by First Letter" /></kbd>
   </a>
 </div>
