@@ -1,10 +1,13 @@
+import { useRef } from 'react';
 import PropTypes from 'prop-types';
 
 const AlphabetTabs = ({ onClick }) => {
+  const previousActiveTab = useRef(null);
+
   const backgroundColors = [
+    '#ff7518',
     '#ffcba4',
     '#ff8700',
-    '#ff7518',
     '#ff6600',
     '#e2725b',
   ];
@@ -21,17 +24,29 @@ const AlphabetTabs = ({ onClick }) => {
 
   return (
     <div className='alphabet-tabs'>
-      {generateCharArray('A', 'Z').map((letter, index) => (
-        <button
-          key={letter}
-          style={{
-            backgroundColor: backgroundColors[index % backgroundColors.length],
-          }}
-          onClick={() => onClick(letter)}
-        >
-          {letter}
-        </button>
-      ))}
+      {generateCharArray('A', 'Z').map((letter, index) => {
+        const backgroundColor =
+          backgroundColors[index % backgroundColors.length];
+        return (
+          <button
+            key={letter}
+            style={{
+              backgroundColor,
+              borderRightColor: '#fff',
+            }}
+            onClick={(e) => {
+              if (previousActiveTab.current) {
+                previousActiveTab.current.style.borderRightColor = '#fff';
+              }
+              e.target.style.borderRightColor = backgroundColor;
+              previousActiveTab.current = e.target;
+              onClick(letter, backgroundColor);
+            }}
+          >
+            {letter}
+          </button>
+        );
+      })}
     </div>
   );
 };

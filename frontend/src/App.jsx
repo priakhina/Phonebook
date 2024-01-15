@@ -15,6 +15,8 @@ const App = () => {
   const [newContactNumber, setNewContactNumber] = useState('');
   const [searchKeyword, setSearchKeyword] = useState('');
   const [searchLetter, setSearchLetter] = useState('');
+  const [searchLetterBackgroundColor, setSearchLetterBackgroundColor] =
+    useState('');
   const [searchResult, setSearchResult] = useState([]);
   const [isSearchActive, setIsSearchActive] = useState(false);
   const [isSearchByKeyword, setIsSearchByKeyword] = useState(true);
@@ -184,8 +186,9 @@ const App = () => {
     setIsSearchByKeyword(true);
   };
 
-  const filterContactsByFirstLetter = (letter) => {
+  const filterContactsByFirstLetter = (letter, letterBackgroundColor) => {
     setSearchLetter(letter);
+    setSearchLetterBackgroundColor(letterBackgroundColor);
 
     let matchedContacts = contacts.filter((contact) =>
       contact.firstName.toLowerCase().startsWith(letter.toLowerCase())
@@ -218,13 +221,21 @@ const App = () => {
           onFormSubmit={handleFormSubmit}
         />
       </div>
-      <div className='contacts-view'>
+      <div
+        className='contacts-view'
+        style={{
+          backgroundColor: searchLetterBackgroundColor
+            ? searchLetterBackgroundColor
+            : '#fff',
+        }}
+      >
         <AlphabetTabs onClick={filterContactsByFirstLetter} />
         <Contacts
           contacts={searchResult}
           isSearchByKeyword={isSearchByKeyword}
           searchKeyword={searchKeyword}
           searchLetter={searchLetter}
+          searchLetterBackgroundColor={searchLetterBackgroundColor}
           onContactDelete={deleteContact}
         />
       </div>
