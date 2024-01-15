@@ -47,4 +47,10 @@ To ensure the correctness of the input data, there have been defined specific va
         - eg. 09-1234556 and 040-22334455 are valid phone numbers
         - eg. 1234556, 1-22334455 and 10-22-334455 are invalid
 
-When a validation error occurs, the app notifies the user by displaying a corresponding message.
+When a validation error occurs, the app notifies the user by displaying a corresponding message:
+
+<div align="center">
+  <a href="https://full-stack-phonebook-app.onrender.com/" target="_blank" rel="noreferrer">
+    <kbd><img src="docs/images/phonebook_add-contact-error.png" alt="Phonebook App - Add Contact Error" /></kbd>
+  </a>
+</div>
