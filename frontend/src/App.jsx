@@ -216,7 +216,10 @@ const App = () => {
             onFormSubmit={searchContactsByName}
           />
           <p style={{ margin: '5px 0' }}>OR</p>
-          <button onClick={() => setIsContactFormVisible(true)}>
+          <button
+            className='secondary'
+            onClick={() => setIsContactFormVisible(true)}
+          >
             Add a new contact
           </button>
         </div>
@@ -231,7 +234,10 @@ const App = () => {
             onFormSubmit={handleFormSubmit}
           />
           <p style={{ margin: '5px 0' }}>OR</p>
-          <button onClick={() => setIsContactFormVisible(false)}>
+          <button
+            className='secondary'
+            onClick={() => setIsContactFormVisible(false)}
+          >
             Go back to search a contact
           </button>
         </div>
