@@ -34,7 +34,7 @@ const ContactForm = ({
         />
       </div>
       <div>
-        <button type='submit'>Add a new contact</button>
+        <button type='submit'>Add this contact</button>
       </div>
     </form>
   );

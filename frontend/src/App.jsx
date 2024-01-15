@@ -20,8 +20,11 @@ const App = () => {
   const [searchResult, setSearchResult] = useState([]);
   const [isSearchActive, setIsSearchActive] = useState(false);
   const [isSearchByKeyword, setIsSearchByKeyword] = useState(true);
+  const [isContactFormVisible, setIsContactFormVisible] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState('');
   const [notificationType, setNotificationType] = useState('');
+  const hideWhenVisible = { display: isContactFormVisible ? 'none' : '' };
+  const showWhenVisible = { display: isContactFormVisible ? '' : 'none' };
   const searchKeywordInputRef = useRef(null);
 
   useEffect(() => {
@@ -207,19 +210,31 @@ const App = () => {
         <h1>Phonebook</h1>
         <h3>Manage your contacts the easy way</h3>
         <Notification message={notificationMessage} type={notificationType} />
-        <SearchFilter
-          ref={searchKeywordInputRef}
-          onFormSubmit={searchContactsByName}
-        />
-        <ContactForm
-          newContactFirstName={newContactFirstName}
-          newContactLastName={newContactLastName}
-          newContactNumber={newContactNumber}
-          onNewContactFirstNameChange={handleNewContactFirstNameChange}
-          onNewContactLastNameChange={handleNewContactLastNameChange}
-          onNewContactNumberChange={handleNewContactNumberChange}
-          onFormSubmit={handleFormSubmit}
-        />
+        <div style={hideWhenVisible}>
+          <SearchFilter
+            ref={searchKeywordInputRef}
+            onFormSubmit={searchContactsByName}
+          />
+          <p style={{ margin: '5px 0' }}>OR</p>
+          <button onClick={() => setIsContactFormVisible(true)}>
+            Add a new contact
+          </button>
+        </div>
+        <div style={showWhenVisible}>
+          <ContactForm
+            newContactFirstName={newContactFirstName}
+            newContactLastName={newContactLastName}
+            newContactNumber={newContactNumber}
+            onNewContactFirstNameChange={handleNewContactFirstNameChange}
+            onNewContactLastNameChange={handleNewContactLastNameChange}
+            onNewContactNumberChange={handleNewContactNumberChange}
+            onFormSubmit={handleFormSubmit}
+          />
+          <p style={{ margin: '5px 0' }}>OR</p>
+          <button onClick={() => setIsContactFormVisible(false)}>
+            Go back to search a contact
+          </button>
+        </div>
       </div>
       <div
         className='contacts-view'
